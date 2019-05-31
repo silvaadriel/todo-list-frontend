@@ -8,6 +8,15 @@
               <v-layout justify-center column fill-height>
                 <v-text-field
                   class="mb-3"
+                  v-model="name"
+                  :counter="10"
+                  :rules="nameRules"
+                  label="Name"
+                  required
+                ></v-text-field>
+
+                <v-text-field
+                  class="mb-3"
                   v-model="email"
                   :rules="emailRules"
                   label="E-mail"
@@ -26,12 +35,14 @@
                   counter
                   @click:append="show = !show"
                 ></v-text-field>
-                <div>
-                  <p class="my-3">
-                    Are you new here?
-                    <a href="https://google.com">Create an account.</a>
-                  </p>
 
+                <v-checkbox
+                  v-model="checkbox"
+                  :rules="[v => !!v || 'You must agree to continue!']"
+                  label="Do you agree?"
+                  required
+                ></v-checkbox>
+                <div>
                   <v-btn
                     class="mt-4"
                     :disabled="!valid"
@@ -40,7 +51,7 @@
                     color="primary"
                     @click="validate"
                   >
-                    <v-icon class="mr-2">fingerprint</v-icon>Login
+                    <v-icon class="mr-2">fingerprint</v-icon>Register
                   </v-btn>
                 </div>
               </v-layout>
@@ -54,9 +65,14 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "Register",
   data: () => ({
     valid: true,
+    name: "",
+    nameRules: [
+      v => !!v || "Name is required",
+      v => (v && v.length <= 10) || "Name must be less than 10 characters"
+    ],
     email: "",
     emailRules: [
       v => !!v || "E-mail is required",
@@ -67,7 +83,8 @@ export default {
     rules: {
       required: value => !!value || "Required.",
       min: v => v.length >= 8 || "Min 8 characters"
-    }
+    },
+    checkbox: false
   }),
 
   methods: {
@@ -86,7 +103,7 @@ export default {
 }
 .resultContainer .v-form {
   width: 300px;
-  height: 300px;
+  height: 400px;
 }
 .resultContainer .v-text-field {
   height: 50px;

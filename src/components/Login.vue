@@ -29,7 +29,7 @@
                 <div>
                   <p class="my-3">
                     Are you new here?
-                    <a href="https://google.com">Create an account.</a>
+                    <router-link :to="{ name: 'register'}">Create an account.</router-link>
                   </p>
 
                   <v-btn
