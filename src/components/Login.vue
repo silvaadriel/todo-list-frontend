@@ -60,7 +60,7 @@ export default {
     email: "",
     emailRules: [
       v => !!v || "E-mail is required",
-      v => /.+@.+/.test(v) || "E-mail must be valid"
+      v => /.+@.+\.+./.test(v) || "E-mail must be valid"
     ],
     show: false,
     password: "",
@@ -85,7 +85,7 @@ export default {
   height: 91vh;
 }
 .resultContainer .v-form {
-  width: 300px;
+  width: 380px;
   height: 300px;
 }
 .resultContainer .v-text-field {

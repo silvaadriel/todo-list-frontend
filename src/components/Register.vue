@@ -6,14 +6,7 @@
           <v-layout align-center justify-center row fill-height>
             <v-form class="elevation-10 px-3 py-3" ref="form" v-model="valid" lazy-validation>
               <v-layout justify-center column fill-height>
-                <v-text-field
-                  class="mb-3"
-                  v-model="name"
-                  :counter="10"
-                  :rules="nameRules"
-                  label="Name"
-                  required
-                ></v-text-field>
+                <v-text-field class="mb-3" v-model="name" :rules="nameRules" label="Name" required></v-text-field>
 
                 <v-text-field
                   class="mb-3"
@@ -39,7 +32,7 @@
                 <v-checkbox
                   v-model="checkbox"
                   :rules="[v => !!v || 'You must agree to continue!']"
-                  label="Do you agree?"
+                  label="I agree to the terms."
                   required
                 ></v-checkbox>
                 <div>
@@ -51,7 +44,7 @@
                     color="primary"
                     @click="validate"
                   >
-                    <v-icon class="mr-2">fingerprint</v-icon>Register
+                    <v-icon class="mr-2">account_circle</v-icon>Register
                   </v-btn>
                 </div>
               </v-layout>
@@ -69,14 +62,11 @@ export default {
   data: () => ({
     valid: true,
     name: "",
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
-    ],
+    nameRules: [v => !!v || "Name is required"],
     email: "",
     emailRules: [
       v => !!v || "E-mail is required",
-      v => /.+@.+/.test(v) || "E-mail must be valid"
+      v => /.+@.+\.+./.test(v) || "E-mail must be valid"
     ],
     show: false,
     password: "",
@@ -102,10 +92,13 @@ export default {
   height: 91vh;
 }
 .resultContainer .v-form {
-  width: 300px;
-  height: 400px;
+  width: 380px;
+  height: 380px;
 }
 .resultContainer .v-text-field {
   height: 50px;
+}
+.resultContainer .v-input--checkbox {
+  height: 150px;
 }
 </style>
