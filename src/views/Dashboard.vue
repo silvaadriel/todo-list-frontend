@@ -1,8 +1,17 @@
-<template></template>
+<template>
+  <ToDo/>
+</template>
 
 <script>
-export default {};
+import ToDo from "../components/ToDo";
+
+export default {
+  components: {
+    ToDo
+  }
+};
 </script>
 
-<style>
+<style lang="sass" scoped>
+
 </style>
