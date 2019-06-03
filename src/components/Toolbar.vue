@@ -8,7 +8,7 @@
       @click.stop="drawer = !drawer"
     ></v-toolbar-side-icon>
 
-    <v-navigation-drawer v-model="drawer" :mini-variant="mini" mobile-break-point="980" absolute>
+    <v-navigation-drawer v-model="drawer" :mini-variant="mini" mobile-break-point="980" fixed>
       <v-list class="pa-1">
         <v-list-tile v-if="mini" @click.stop="mini = !mini">
           <v-list-tile-action>
@@ -73,6 +73,6 @@ export default {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  z-index: 1;
+  z-index: 10;
 }
 </style>

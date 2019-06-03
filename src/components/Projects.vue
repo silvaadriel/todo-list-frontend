@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl text-xs-left>
-    <v-layout v-bind="binding" my-1 align-center justify-center fill-height row wrap>
+    <v-layout v-bind="binding" my-1 align-center justify-space-around fill-height row wrap>
       <v-flex class="progress-circular" text-xs-center xs6>
         <v-progress-circular
           class="display-3"
@@ -184,15 +184,6 @@ export default {
 </script>
 
 <style scoped>
-.text-field {
-  position: relative;
-}
-.add-circle {
-  position: absolute;
-  top: 12px;
-  right: 20px;
-  z-index: 1000;
-}
 .projects {
   cursor: pointer;
   transition: 0.3s;
@@ -208,5 +199,10 @@ export default {
 }
 .tasks-list {
   overflow-y: scroll;
+}
+@media (max-width: 825px) {
+  .tasks-list {
+    overflow-y: initial;
+  }
 }
 </style>
