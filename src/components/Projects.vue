@@ -39,16 +39,20 @@
           <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
 
           <v-list-tile class="projects" :key="`${i}-${project.title}`">
-            <v-text-field
-              class="project-title"
-              @input="(text) => updateProjectTitle(project, text)"
-              :value="project.title"
-              :readonly="!project.isEditMode"
-              :autofocus="!project.isEditMode"
-              single-line
-              full-width
-              hide-details
-            ></v-text-field>
+            <v-checkbox v-model="project.done" :readonly="project.isEditMode" color="info darken-3">
+              <template v-slot:label>
+                <v-text-field
+                  class="project-title"
+                  @input="(text) => updateProjectTitle(project, text)"
+                  :value="project.title"
+                  :readonly="!project.isEditMode"
+                  :autofocus="!project.isEditMode"
+                  single-line
+                  full-width
+                  hide-details
+                ></v-text-field>
+              </template>
+            </v-checkbox>
 
             <v-spacer></v-spacer>
 
@@ -161,7 +165,5 @@ export default {
 }
 .projects:hover {
   background-color: #e5e5e5;
-}
-.project-title {
 }
 </style>
