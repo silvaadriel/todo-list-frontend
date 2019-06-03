@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .menu-hamburger {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 10px;
   z-index: 1;
