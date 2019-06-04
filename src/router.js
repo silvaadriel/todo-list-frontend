@@ -9,8 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'dashboard',
-      component: Dashboard,
+      name: 'home',
+      component: Home,
     },
     {
       path: '/register',

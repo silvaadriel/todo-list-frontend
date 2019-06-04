@@ -8,7 +8,8 @@
               <v-layout justify-center column fill-height>
                 <v-text-field
                   class="mb-3"
-                  v-model="email"
+                  :value="loginEmail"
+                  @input="setLoginEmail"
                   :rules="emailRules"
                   label="E-mail"
                   required
@@ -16,7 +17,8 @@
 
                 <v-text-field
                   class="mb-3"
-                  v-model="password"
+                  :value="loginPassword"
+                  @input="setLoginPassword"
                   :append-icon="show ? 'visibility' : 'visibility_off'"
                   :rules="[rules.required, rules.min]"
                   :type="show ? 'text' : 'password'"
@@ -38,7 +40,7 @@
                     outline
                     block
                     color="primary"
-                    @click="validate"
+                    @click="login"
                   >
                     <v-icon class="mr-2">fingerprint</v-icon>Login
                   </v-btn>
@@ -53,6 +55,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from "vuex";
+
 export default {
   name: "Login",
   data: () => ({
@@ -70,11 +74,21 @@ export default {
     }
   }),
 
+  computed: {
+    ...mapState(["loginEmail", "loginPassword", "loginError"])
+  },
+
   methods: {
+    ...mapMutations(["setLoginEmail", "setLoginPassword"]),
+    ...mapActions(["login"]),
     validate() {
-      if (this.$refs.form.validate()) {
-        this.snackbar = true;
-      }
+      // if (this.$refs.form.validate()) {
+      //   //this.snackbar = true;
+      //   axios.post("http://localhost:3333/api/login", {
+      //     email: this.email,
+      //     password: this.password
+      //   });
+      // }
     }
   }
 };
