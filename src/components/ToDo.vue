@@ -1,28 +1,24 @@
 <template>
-  <projects :projects="projects"/>
+  <tasks/>
 </template>
 
 <script>
-import Projects from "./Projects";
+import Tasks from "./Tasks";
+import { mapGetters } from "vuex";
+import router from "../router";
 
 export default {
   name: "todo",
-  data: () => ({
-    projects: [
-      {
-        done: false,
-        title: "pj1",
-        tasks: []
-      },
-      {
-        done: true,
-        title: "pj2",
-        tasks: []
-      }
-    ]
-  }),
+  mounted() {
+    if (!this.isLoggedIn) {
+      return router.push("/");
+    }
+  },
   components: {
-    Projects
+    Tasks
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn"])
   }
 };
 </script>

@@ -16,6 +16,13 @@ export default new Vuex.Store({
     loginPassword: '',
     loginError: null,
     token: null,
+    tasks: [],
+    newTaskName: null,
+  },
+  getters: {
+    isLoggedIn(state) {
+      return !!state.token;
+    },
   },
   mutations: {
     setToken(state, token) {
@@ -41,6 +48,27 @@ export default new Vuex.Store({
     },
     setLoginPassword(state, password) {
       state.loginPassword = password;
+    },
+    setTasks(state, tasks) {
+      state.tasks = tasks;
+    },
+    setNewTaskName(state, name) {
+      state.newTaskName = name;
+    },
+    appendTask(state, task) {
+      state.tasks.push(task);
+    },
+    setTaskTitle(state, { task, title }) {
+      task.title = title;
+    },
+    setEditMode(state, task) {
+      Vue.set(task, 'isEditMode', true);
+    },
+    unsetEditMode(state, task) {
+      Vue.set(task, 'isEditMode', false);
+    },
+    removeTask(state, task) {
+      state.tasks.splice(state.tasks.indexOf(task), 1);
     },
   },
   actions: {
@@ -76,6 +104,31 @@ export default new Vuex.Store({
         .catch(() => {
           commit('setLoginError', 'An error has occured trying to login.');
         });
+    },
+    fetchTasks({ commit }) {
+      return HTTP().get('/todo').then(({ data }) => {
+        commit('setTasks', data);
+      });
+    },
+    createTask({ commit, state }) {
+      return HTTP().post('/todo', {
+        title: state.newTaskName,
+        isDone: false,
+      }).then(({ data }) => {
+        commit('appendTask', data);
+        commit('setNewTaskName', null);
+      });
+    },
+    deleteTask({ commit }, task) {
+      return HTTP().delete(`todo/${task.id}`)
+        .then(() => {
+          commit('removeTask', task);
+        });
+    },
+    saveTask({ commit }, task) {
+      return HTTP().put(`/todo/${task.id}`, task).then(() => {
+        commit('unsetEditMode', task);
+      });
     },
   },
 });

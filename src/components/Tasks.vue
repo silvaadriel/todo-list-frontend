@@ -24,19 +24,20 @@
       <v-flex class="tasks-list" xs6>
         <v-text-field
           autofocus
-          v-model="project"
+          :value="newTaskName"
+          @input="setNewTaskName"
           label="What are you working on?"
           solo
-          @keydown.enter="create"
+          @keydown.enter="createTask"
           append-icon="add_circle"
-          @click:append="create"
+          @click:append="createTask"
           clearable
         ></v-text-field>
 
         <h2 class="display-1 teal--text pl-3">
-          Projects:&nbsp;
+          Tasks:&nbsp;
           <v-fade-transition leave-absolute>
-            <span :key="`projects-${projects.length}`">{{ projects.length }}</span>
+            <span :key="`tasks-${tasks.length}`">{{ tasks.length }}</span>
           </v-fade-transition>
         </h2>
 
@@ -44,34 +45,35 @@
 
         <v-layout my-1 align-center>
           <v-flex xs6>
-            <strong class="mx-3 info--text text--darken-3">Remaining: {{ remainingProjects }}</strong>
+            <strong class="mx-3 info--text text--darken-3">Remaining: {{ remainingTasks }}</strong>
           </v-flex>
           <v-divider vertical></v-divider>
           <v-flex xs6>
-            <strong class="mx-3 black--text">Completed: {{ completedProjects }}</strong>
+            <strong class="mx-3 black--text">Completed: {{ completedTasks }}</strong>
           </v-flex>
         </v-layout>
 
         <v-divider class="mb-3"></v-divider>
 
-        <v-card v-if="projects.length > 0">
+        <v-card v-if="tasks.length > 0">
           <v-slide-y-transition hide-on-leave class="py-0" group>
-            <template v-for="(project, i) in projects">
+            <template v-for="(task, i) in tasks">
               <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
 
-              <v-list-tile class="projects" :key="`${i}-${project.title}`">
+              <v-list-tile class="tasks" :key="`${i}-${task.title}`">
                 <v-checkbox
-                  v-model="project.done"
-                  :readonly="project.isEditMode"
+                  v-model="task.isDone"
+                  @change="checkClicked(task)"
+                  :readonly="task.isEditMode"
                   color="info darken-3"
                 >
                   <template v-slot:label>
                     <v-text-field
-                      class="project-title"
-                      @input="(text) => updateProjectTitle(project, text)"
-                      :value="project.title"
-                      :readonly="!project.isEditMode"
-                      :autofocus="!project.isEditMode"
+                      class="task-title"
+                      @input="(event) => updateTaskTitle(task, event)"
+                      :value="task.title"
+                      :readonly="!task.isEditMode"
+                      :autofocus="!task.isEditMode"
                       single-line
                       full-width
                       hide-details
@@ -83,26 +85,29 @@
 
                 <v-scroll-x-transition>
                   <v-icon
-                    v-if="!project.isEditMode"
+                    v-if="!task.isEditMode"
                     class="mr-3"
                     color="info darken-3"
-                    @click="() => setEditMode(project)"
+                    @click="() => setEditMode(task)"
                   >edit</v-icon>
                 </v-scroll-x-transition>
 
                 <v-scroll-x-transition>
                   <v-icon
-                    v-if="!project.isEditMode"
+                    v-if="!task.isEditMode"
                     color="red darken-4"
-                    @click="() => deleteProject(i)"
+                    @click="() => deleteTask(task)"
                   >delete</v-icon>
                 </v-scroll-x-transition>
 
                 <v-expand-x-transition>
                   <v-icon
-                    v-if="project.isEditMode"
+                    v-if="task.isEditMode"
                     color="teal"
-                    @click="() => unsetEditMode(project)"
+                    @click="() => {
+                      setTaskTitle({ task, title: newTaskTitle })
+                      saveTask(task)
+                    }"
                   >check_circle</v-icon>
                 </v-expand-x-transition>
               </v-list-tile>
@@ -116,32 +121,30 @@
 
 <script>
 import Vue from "vue";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "projects",
+  name: "tasks",
   data: () => ({
-    project: null,
+    task: null,
     editable: false,
-    newProjectTitle: null
+    newTaskTitle: null
   }),
-  props: {
-    projects: {
-      type: Array,
-      required: true
-    }
+  mounted() {
+    this.fetchTasks();
   },
-
   computed: {
-    completedProjects() {
-      return this.projects.filter(project => project.done).length;
+    ...mapState(["tasks", "newTaskName"]),
+    completedTasks() {
+      return this.tasks.filter(task => task.isDone).length;
     },
     progress() {
-      return this.projects.length
-        ? (this.completedProjects / this.projects.length) * 100
+      return this.tasks.length
+        ? (this.completedTasks / this.tasks.length) * 100
         : 0;
     },
-    remainingProjects() {
-      return this.projects.length - this.completedProjects;
+    remainingTasks() {
+      return this.tasks.length - this.completedTasks;
     },
     binding() {
       const binding = {};
@@ -151,44 +154,30 @@ export default {
       return binding;
     }
   },
-
   methods: {
-    create() {
-      this.project &&
-        this.projects.push({
-          done: false,
-          title: this.project,
-          tasks: []
-        });
-
-      this.project = null;
+    ...mapActions(["fetchTasks", "createTask", "saveTask", "deleteTask"]),
+    ...mapMutations([
+      "setNewTaskName",
+      "setTaskTitle",
+      "setEditMode",
+      "unsetEditMode"
+    ]),
+    updateTaskTitle(task, text) {
+      this.newTaskTitle = text;
     },
-    deleteProject(id) {
-      this.projects.splice(id, 1);
-    },
-    setEditMode(project) {
-      Vue.set(project, "isEditMode", true);
-    },
-    unsetEditMode(project) {
-      console.log(project.title);
-      Vue.set(project, "isEditMode", false);
-      this.newProjectTitle && Vue.set(project, "title", this.newProjectTitle);
-
-      this.newProjectTitle = null;
-    },
-    updateProjectTitle(project, text) {
-      this.newProjectTitle = text;
+    checkClicked(task) {
+      this.saveTask(task);
     }
   }
 };
 </script>
 
 <style scoped>
-.projects {
+.tasks {
   cursor: pointer;
   transition: 0.3s;
 }
-.projects:hover {
+.tasks:hover {
   background-color: #e5e5e5;
 }
 .tasks-list,
