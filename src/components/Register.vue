@@ -6,11 +6,19 @@
           <v-layout align-center justify-center row fill-height>
             <v-form class="elevation-10 px-3 py-3" ref="form" v-model="valid" lazy-validation>
               <v-layout justify-center column fill-height>
-                <v-text-field class="mb-3" v-model="name" :rules="nameRules" label="Name" required></v-text-field>
+                <v-text-field
+                  class="mb-3"
+                  :value="registerUserName"
+                  @input="setRegisterUserName"
+                  :rules="nameRules"
+                  label="Name"
+                  required
+                ></v-text-field>
 
                 <v-text-field
                   class="mb-3"
-                  v-model="email"
+                  :value="registerEmail"
+                  @input="setRegisterEmail"
                   :rules="emailRules"
                   label="E-mail"
                   required
@@ -18,7 +26,8 @@
 
                 <v-text-field
                   class="mb-3"
-                  v-model="password"
+                  :value="registerPassword"
+                  @input="setRegisterPassword"
                   :append-icon="show ? 'visibility' : 'visibility_off'"
                   :rules="[rules.required, rules.min]"
                   :type="show ? 'text' : 'password'"
@@ -42,7 +51,7 @@
                     outline
                     block
                     color="primary"
-                    @click="validate"
+                    @click="register"
                   >
                     <v-icon class="mr-2">account_circle</v-icon>Register
                   </v-btn>
@@ -57,6 +66,8 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from "vuex";
+
 export default {
   name: "Register",
   data: () => ({
@@ -76,8 +87,22 @@ export default {
     },
     checkbox: false
   }),
-
+  computed: {
+    ...mapState([
+      "registerUserName",
+      "registerEmail",
+      "registerPassword",
+      "registerError"
+    ])
+  },
   methods: {
+    ...mapMutations([
+      "setRegisterUserName",
+      "setRegisterEmail",
+      "setRegisterPassword",
+      "setRegisterError"
+    ]),
+    ...mapActions(["register"]),
     validate() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;

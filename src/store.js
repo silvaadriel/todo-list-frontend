@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     baseUrl: 'http://127.0.0.1:3333/api',
+    registerUserName: '',
     registerEmail: '',
     registerPassword: '',
     registerError: null,
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     setRegisterError(state, error) {
       state.registerError = error;
+    },
+    setRegisterUserName(state, name) {
+      state.registerUserName = name;
     },
     setRegisterEmail(state, email) {
       state.registerEmail = email;
@@ -46,13 +50,14 @@ export default new Vuex.Store({
     },
     register({ commit, state }) {
       commit('setRegisterError', null);
-      return HTTP().post('/auth/register', {
+      return HTTP().post('/register', {
+        username: state.registerUserName,
         email: state.registerEmail,
         password: state.registerPassword,
       })
         .then(({ data }) => {
           commit('setToken', data.token);
-          router.push('/');
+          router.push('/dashboard');
         })
         .catch(() => {
           commit('setRegisterError', 'An error has occured trying to create your account.');
@@ -66,7 +71,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           commit('setToken', data.token);
-          router.push({ name: 'register' });
+          router.push('/dashboard');
         })
         .catch(() => {
           commit('setLoginError', 'An error has occured trying to login.');
