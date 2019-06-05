@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    baseUrl: 'http://127.0.0.1:3333/api',
+    baseUrl: 'https://todo-list-backend-api.herokuapp.com/api',
+    user: {},
     registerUserName: '',
     registerEmail: '',
     registerPassword: '',
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setUser(state, user) {
+      state.user = user;
+    },
     setToken(state, token) {
       state.token = token;
     },
@@ -74,12 +78,12 @@ export default new Vuex.Store({
   actions: {
     logout({ commit }) {
       commit('setToken', null);
-      router.push('/login');
+      router.push('/');
     },
     register({ commit, state }) {
       commit('setRegisterError', null);
       return HTTP().post('/register', {
-        username: state.registerUserName,
+        name: state.registerUserName,
         email: state.registerEmail,
         password: state.registerPassword,
       })
@@ -104,6 +108,11 @@ export default new Vuex.Store({
         .catch(() => {
           commit('setLoginError', 'An error has occured trying to login.');
         });
+    },
+    fetchUser({ commit }) {
+      return HTTP().get('/user').then(({ data }) => {
+        commit('setUser', data);
+      });
     },
     fetchTasks({ commit }) {
       return HTTP().get('/todo').then(({ data }) => {

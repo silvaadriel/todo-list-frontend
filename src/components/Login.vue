@@ -80,23 +80,14 @@ export default {
 
   methods: {
     ...mapMutations(["setLoginEmail", "setLoginPassword"]),
-    ...mapActions(["login"]),
-    validate() {
-      // if (this.$refs.form.validate()) {
-      //   //this.snackbar = true;
-      //   axios.post("http://localhost:3333/api/login", {
-      //     email: this.email,
-      //     password: this.password
-      //   });
-      // }
-    }
+    ...mapActions(["login"])
   }
 };
 </script>
 
 <style scoped>
 .resultContainer {
-  height: 91vh;
+  height: 81vh;
 }
 .resultContainer .v-form {
   width: 380px;

@@ -18,11 +18,12 @@
 
         <v-list-tile avatar tag="div">
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            <img v-if="false" src>
+            <span class="no-img">{{ user.name ? user.name.substr(0, 1) : "" }}</span>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
+            <v-list-tile-title>{{ user.name }}</v-list-tile-title>
           </v-list-tile-content>
 
           <v-list-tile-action>
@@ -46,24 +47,49 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+
+      <v-list>
+        <v-list-tile @click="logout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Exit</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
   </v-layout>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+import router from "../router";
+
 export default {
   name: "toolbar",
   data: () => ({
     drawer: false,
     items: [
-      { title: "Home", icon: "dashboard", handle: "" },
+      {
+        title: "Home",
+        icon: "dashboard",
+        handle: () => router.push("/dashboard")
+      },
       { title: "About", icon: "question_answer", handle: "" }
     ],
     mini: true,
     right: null
   }),
+  computed: {
+    ...mapState(["user"])
+  },
   mounted() {
     window.innerWidth > 980 ? (this.drawer = true) : (this.drawer = false);
+  },
+  methods: {
+    ...mapActions(["logout"])
   }
 };
 </script>
@@ -74,5 +100,15 @@ export default {
   bottom: 10px;
   right: 10px;
   z-index: 10;
+}
+.no-img {
+  color: #fff;
+  font-size: 1.8em;
+  height: 40px;
+  width: 40px;
+  background: #009688;
+  border-radius: 30px;
+  text-transform: uppercase;
+  padding: 2px;
 }
 </style>
