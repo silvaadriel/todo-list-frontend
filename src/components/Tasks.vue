@@ -15,7 +15,7 @@
             <v-card-title primary-title>
               <div>
                 <div class="headline mb-2">Welcome Back!</div>
-                <span>Listen to your favorite artists and albums whenever and wherever, online and offline.</span>
+                <span>Organize your to-do, work, grocery, movies and household lists. This free application offers an effective and flexible way to stay on top of your daily tasks.</span>
               </div>
             </v-card-title>
           </v-card>
