@@ -1,7 +1,6 @@
 <template>
   <v-content>
     <Register/>
-    <Footer/>
   </v-content>
 </template>
 

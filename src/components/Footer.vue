@@ -1,5 +1,5 @@
 <template>
-  <v-footer fixed dark color="rgba(255, 0, 0, 0.5)" height="auto">
+  <v-footer dark color="rgba(255, 0, 0, 0.5)" height="auto">
     <v-card class="flex" flat tile>
       <v-card-actions class="justify-center">
         &copy;2019 —
@@ -15,5 +15,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

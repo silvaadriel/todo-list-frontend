@@ -1,7 +1,6 @@
 <template>
   <v-content>
     <Login/>
-    <Footer/>
   </v-content>
 </template>
 

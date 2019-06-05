@@ -182,8 +182,8 @@ export default {
 }
 .tasks-list,
 .progress-circular {
-  height: calc(100vh - 60px);
-  min-width: 400px;
+  height: 580px;
+  min-width: 300px;
   max-width: 500px;
 }
 .tasks-list {

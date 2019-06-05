@@ -87,7 +87,7 @@ export default {
 
 <style scoped>
 .resultContainer {
-  height: 81vh;
+  height: 500px;
 }
 .resultContainer .v-form {
   width: 380px;
