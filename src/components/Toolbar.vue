@@ -2,13 +2,13 @@
   <v-layout wrap>
     <v-toolbar-side-icon
       large
-      class="menu-hamburger"
+      class="menu-hamburger hidden-md-and-up"
       color="info darken-3"
       dark
       @click.stop="drawer = !drawer"
     ></v-toolbar-side-icon>
 
-    <v-navigation-drawer v-model="drawer" :mini-variant="mini" mobile-break-point="980" fixed>
+    <v-navigation-drawer v-model="drawer" :mini-variant="mini" mobile-break-point="960" fixed>
       <v-list class="pa-1">
         <v-list-tile v-if="mini" @click.stop="mini = !mini">
           <v-list-tile-action>
@@ -55,7 +55,7 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title>Exit</v-list-tile-title>
+            <v-list-tile-title>Logout</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -86,7 +86,7 @@ export default {
     ...mapState(["user"])
   },
   mounted() {
-    window.innerWidth > 980 ? (this.drawer = true) : (this.drawer = false);
+    window.innerWidth > 960 ? (this.drawer = true) : (this.drawer = false);
   },
   methods: {
     ...mapActions(["logout"])
