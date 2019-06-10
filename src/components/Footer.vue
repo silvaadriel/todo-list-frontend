@@ -1,11 +1,9 @@
 <template>
-  <v-footer dark color="rgba(255, 0, 0, 0.5)" height="auto">
-    <v-card class="flex" flat tile>
-      <v-card-actions class="justify-center">
-        &copy;2019 —
-        <strong>Adriel da Silva</strong>
-      </v-card-actions>
-    </v-card>
+  <v-footer absolute color="rgba(0, 0, 0, 0.5)" height="auto">
+    <v-flex pr-4 text-xs-right white--text xs12>
+      &copy;2019 —
+      <strong>Adriel da Silva</strong>
+    </v-flex>
   </v-footer>
 </template>
 
