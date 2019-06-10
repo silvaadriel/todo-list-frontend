@@ -48,7 +48,8 @@
 
                 <v-btn
                   class="mt-4"
-                  :disabled="!valid"
+                  :loading="loading"
+                  :disabled="!valid || loading"
                   outline
                   block
                   color="primary"
@@ -62,6 +63,7 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-snackbar :value="registerError" top color="error">{{ registerError }}</v-snackbar>
   </v-container>
 </template>
 
@@ -92,7 +94,8 @@ export default {
       "registerUserName",
       "registerEmail",
       "registerPassword",
-      "registerError"
+      "registerError",
+      "loading"
     ])
   },
   methods: {

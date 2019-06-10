@@ -19,7 +19,9 @@
         <v-list-tile avatar tag="div">
           <v-list-tile-avatar>
             <img v-if="false" src>
-            <span class="no-img">{{ user.name ? user.name.substr(0, 1) : "" }}</span>
+            <v-avatar size="40" class="teal">
+              <span class="white--text headline">{{ user.name ? user.name.substr(0, 1) : "" }}</span>
+            </v-avatar>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -100,15 +102,5 @@ export default {
   bottom: 10px;
   right: 10px;
   z-index: 10;
-}
-.no-img {
-  color: #fff;
-  font-size: 1.8em;
-  height: 40px;
-  width: 40px;
-  background: #009688;
-  border-radius: 30px;
-  text-transform: uppercase;
-  padding: 2px;
 }
 </style>

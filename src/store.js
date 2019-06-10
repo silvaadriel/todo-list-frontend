@@ -19,6 +19,7 @@ export default new Vuex.Store({
     token: null,
     tasks: [],
     newTaskName: null,
+    loading: false,
   },
   getters: {
     isLoggedIn(state) {
@@ -74,6 +75,9 @@ export default new Vuex.Store({
     removeTask(state, task) {
       state.tasks.splice(state.tasks.indexOf(task), 1);
     },
+    toggleLoading(state) {
+      state.loading = !state.loading;
+    }
   },
   actions: {
     logout({ commit }) {
@@ -82,30 +86,36 @@ export default new Vuex.Store({
     },
     register({ commit, state }) {
       commit('setRegisterError', null);
+      commit('toggleLoading');
       return HTTP().post('/register', {
         name: state.registerUserName,
         email: state.registerEmail,
         password: state.registerPassword,
       })
         .then(({ data }) => {
+          commit('toggleLoading');
           commit('setToken', data.token);
           router.push('/dashboard');
         })
         .catch(() => {
+          commit('toggleLoading');
           commit('setRegisterError', 'An error has occured trying to create your account.');
         });
     },
     login({ commit, state }) {
       commit('setLoginError', null);
+      commit('toggleLoading');
       return HTTP().post('/login', {
         email: state.loginEmail,
         password: state.loginPassword,
       })
         .then(({ data }) => {
+          commit('toggleLoading');
           commit('setToken', data.token);
           router.push('/dashboard');
         })
         .catch(() => {
+          commit('toggleLoading');
           commit('setLoginError', 'An error has occured trying to login.');
         });
     },

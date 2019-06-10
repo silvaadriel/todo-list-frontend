@@ -35,7 +35,15 @@
                   <router-link :to="{ name: 'register'}">Create an account.</router-link>
                 </p>
 
-                <v-btn class="mt-4" :disabled="!valid" outline block color="primary" @click="login">
+                <v-btn
+                  :loading="loading"
+                  :disabled="!valid || loading"
+                  class="mt-4"
+                  outline
+                  block
+                  color="primary"
+                  @click="login"
+                >
                   <v-icon class="mr-2">fingerprint</v-icon>Login
                 </v-btn>
               </v-flex>
@@ -44,6 +52,7 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-snackbar :value="loginError" top color="error">{{ loginError }}</v-snackbar>
   </v-container>
 </template>
 
@@ -68,7 +77,7 @@ export default {
   }),
 
   computed: {
-    ...mapState(["loginEmail", "loginPassword", "loginError"])
+    ...mapState(["loginEmail", "loginPassword", "loginError", "loading"])
   },
 
   methods: {
