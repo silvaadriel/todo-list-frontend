@@ -1,7 +1,5 @@
 # Todo List
 
-Preview: http://to-do-list.ml
-
 ## Project setup
 ```
 yarn install
