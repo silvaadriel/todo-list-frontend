@@ -1,5 +1,7 @@
 # Todo List
 
+Project created for study purposes.
+
 ## Project setup
 ```
 yarn install
