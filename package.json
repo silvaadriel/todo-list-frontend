@@ -9,7 +9,7 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "core-js": "^2.6.5",
     "vue": "^3.0.0",
     "vue-router": "^3.0.3",
